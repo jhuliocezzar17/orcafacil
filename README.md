@@ -1,8 +1,8 @@
 # OrçaFácil
 
-API para freelancers e prestadores de serviço criarem orçamentos, cadastrarem clientes e enviarem um link para o cliente aprovar o orçamento, sem precisar de conta.
+Sistema para freelancers e prestadores de serviço cadastrarem clientes, criarem orçamentos e enviarem um link para o cliente aprovar, sem precisar de conta.
 
-> Projeto de portfólio em andamento. O backend está pronto; o frontend (React) é a próxima etapa.
+O projeto tem duas partes: o **backend** (API em Node.js) e o **frontend** (React).
 
 ## Funcionalidades
 
@@ -11,13 +11,25 @@ API para freelancers e prestadores de serviço criarem orçamentos, cadastrarem 
 - Criação e listagem de orçamentos vinculados a um cliente
 - Link público para o cliente final ver e aprovar o orçamento, sem login
 - Cada usuário acessa apenas os próprios clientes e orçamentos
+- Telas de login, cadastro, clientes, orçamentos (com botão de copiar link) e página pública de aprovação
 
 ## Tecnologias
+
+**Backend**
 
 - **Node.js** + **TypeScript** (executado com `tsx`)
 - **Express 5**
 - **Prisma** (ORM) + **SQLite**
 - **bcryptjs** (hash de senha) e **jsonwebtoken** (JWT)
+- **cors** (libera o frontend a chamar a API)
+
+**Frontend**
+
+- **React** + **TypeScript** com **Vite**
+- **Tailwind CSS** (estilo)
+- **React Query** (busca e cache dos dados da API)
+- **React Router** (rotas e páginas protegidas)
+- **Axios** (cliente HTTP, com interceptor que envia o token)
 
 ## Como rodar localmente
 
@@ -43,6 +55,16 @@ npm run dev
 ```
 
 A API sobe em `http://localhost:3333`.
+
+Em outro terminal, o frontend:
+
+```bash
+cd orcafacil/frontend
+npm install
+npm run dev
+```
+
+O site abre em `http://localhost:5173`.
 
 ## Rotas da API
 
@@ -78,6 +100,13 @@ Todas as rotas foram testadas no **Postman**. Os arquivos `.http` na pasta `back
 ## Estrutura
 
 ```
+frontend/src/
+├── pages/        # Login, Cadastro, Clientes, Orçamentos, Página pública
+├── components/   # Layout, rota protegida, etiqueta de status
+├── contexts/     # AuthContext (quem está logado)
+├── services/     # Funções que chamam a API
+└── lib/          # Axios com interceptor, React Query, formatação
+
 backend/
 ├── prisma/
 │   └── schema.prisma        # Tabelas: User, Client, Proposal
@@ -94,7 +123,8 @@ backend/
 
 ## Próximos passos
 
-- [ ] Frontend com React, Vite, Tailwind e React Query
+- [x] Frontend com React, Vite, Tailwind e React Query
+- [ ] Editar e excluir orçamento (com proteção anti-IDOR)
 - [ ] Recusar orçamento pelo link público
 - [ ] Deploy (backend no Render ou Railway, frontend na Vercel)
 

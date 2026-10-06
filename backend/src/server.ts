@@ -1,10 +1,14 @@
 import express from 'express';
+import cors from 'cors';
 import { authRoutes } from './routes/auth';
 import { clientRoutes } from './routes/clients';
 import { proposalRoutes } from './routes/proposals';
 import { publicRoutes } from './routes/public';
 
 const app = express();
+
+// CORS: libera o frontend (outro endereço, ex.: localhost:5173) a chamar esta API
+app.use(cors());
 app.use(express.json());
 
 app.use(authRoutes);
