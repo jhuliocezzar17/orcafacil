@@ -1,0 +1,61 @@
+### ============================================================
+### Testes de ORÇAMENTOS do OrçaFácil
+### Mande TODOS, um por um, de cima pra baixo (cursor dentro do pedido + Ctrl + Alt + R)
+### ============================================================
+
+@baseUrl = http://localhost:3333
+
+### 1) Login do Jhulio (pega o token)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "jhulio@teste.com",
+  "password": "123456"
+}
+
+### 2) Listar clientes do Jhulio (o próximo pedido usa o id do primeiro cliente daqui)
+# @name clientes
+GET {{baseUrl}}/clients
+Authorization: Bearer {{login.response.body.token}}
+
+### 3) Criar orçamento para o primeiro cliente da lista
+POST {{baseUrl}}/proposals
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "title": "Cardápio digital + logo",
+  "totalValue": 1500,
+  "clientId": "{{clientes.response.body.$[0].id}}"
+}
+
+### 4) Listar MEUS orçamentos
+GET {{baseUrl}}/proposals
+Authorization: Bearer {{login.response.body.token}}
+
+### ============================================================
+### TESTE DE SEGURANÇA: a Ana tenta criar orçamento no cliente do Jhulio
+### ============================================================
+
+### 5) Login da Ana
+# @name loginAna
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana@teste.com",
+  "password": "123456"
+}
+
+### 6) Ana tenta usar o cliente do Jhulio (deve dar 404)
+POST {{baseUrl}}/proposals
+Authorization: Bearer {{loginAna.response.body.token}}
+Content-Type: application/json
+
+{
+  "title": "Tentativa da Ana",
+  "totalValue": 999,
+  "clientId": "{{clientes.response.body.$[0].id}}"
+}

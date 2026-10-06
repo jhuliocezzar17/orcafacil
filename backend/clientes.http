@@ -1,0 +1,59 @@
+### ============================================================
+### Testes de CLIENTES do OrçaFácil
+### Ordem: mande o "1) Login" primeiro. Depois os outros, de cima pra baixo.
+### Para enviar: cursor dentro do pedido + Ctrl + Alt + R
+### ============================================================
+
+@baseUrl = http://localhost:3333
+
+### 1) Login do Jhulio (pega o token)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "jhulio@teste.com",
+  "password": "123456"
+}
+
+### 2) Criar cliente (como Jhulio)
+POST {{baseUrl}}/clients
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "name": "Padaria Pão Quente",
+  "email": "contato@paoquente.com"
+}
+
+### 3) Listar MEUS clientes (como Jhulio)
+GET {{baseUrl}}/clients
+Authorization: Bearer {{login.response.body.token}}
+
+### ============================================================
+### TESTE DE SEGURANÇA: a Ana não pode ver os clientes do Jhulio
+### ============================================================
+
+### 4) Cadastrar a Ana (outra freelancer)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Ana Fotógrafa",
+  "email": "ana@teste.com",
+  "password": "123456"
+}
+
+### 5) Login da Ana
+# @name loginAna
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana@teste.com",
+  "password": "123456"
+}
+
+### 6) Listar clientes COMO ANA (deve vir uma lista vazia: [])
+GET {{baseUrl}}/clients
+Authorization: Bearer {{loginAna.response.body.token}}

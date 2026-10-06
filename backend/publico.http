@@ -1,0 +1,34 @@
+### ============================================================
+### Testes das ROTAS PÚBLICAS (o que o cliente final usa, SEM login)
+### Mande TODOS, um por um, de cima pra baixo (cursor dentro do pedido + Ctrl + Alt + R)
+### Os pedidos 1 e 2 são só pra descobrir o id de um orçamento.
+### ============================================================
+
+@baseUrl = http://localhost:3333
+
+### 1) Login do Jhulio (só pra achar o id do orçamento)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "jhulio@teste.com",
+  "password": "123456"
+}
+
+### 2) Listar orçamentos do Jhulio
+# @name orcamentos
+GET {{baseUrl}}/proposals
+Authorization: Bearer {{login.response.body.token}}
+
+### 3) Cliente final ABRE o link do orçamento (repare: SEM token)
+GET {{baseUrl}}/public/proposals/{{orcamentos.response.body.$[0].id}}
+
+### 4) Cliente final APROVA o orçamento (SEM token) -> deve dar 200
+PATCH {{baseUrl}}/public/proposals/{{orcamentos.response.body.$[0].id}}/approve
+
+### 5) Tenta aprovar DE NOVO -> deve dar 409 (já foi respondido)
+PATCH {{baseUrl}}/public/proposals/{{orcamentos.response.body.$[0].id}}/approve
+
+### 6) Link com id que não existe -> deve dar 404
+GET {{baseUrl}}/public/proposals/id-que-nao-existe

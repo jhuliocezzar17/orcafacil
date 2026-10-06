@@ -1,0 +1,48 @@
+// Configuração do Prisma (essa parte de cima o Claude já deixou pronta)
+
+// "generator": gera o código que o seu TypeScript usa pra falar com o banco
+generator client {
+  provider = "prisma-client-js"
+}
+
+// "datasource": qual banco usamos e onde ele está
+// SQLite = o banco inteiro fica num arquivo só (dev.db). O endereço vem do arquivo .env
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// SUAS TABELAS (models) VÃO AQUI EMBAIXO
+// ============================================================
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  clients   Client[]
+  proposals Proposal[]
+}
+
+model Client {
+  id        String     @id @default(uuid())
+  name      String
+  email     String
+  createdAt DateTime   @default(now())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id])
+  proposals Proposal[]
+}
+
+model Proposal {
+  id         String   @id @default(uuid())
+  title      String
+  totalValue Float
+  status     String   @default("PENDING")
+  createdAt  DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  clientId   String
+  client     Client   @relation(fields: [clientId], references: [id])
+}

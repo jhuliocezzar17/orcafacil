@@ -1,0 +1,48 @@
+### ============================================================
+### Arquivo de testes da API do OrçaFácil
+### Precisa da extensão "REST Client" no VS Code.
+### Para enviar: clique em "Send Request" ou coloque o cursor dentro do pedido e aperte Ctrl + Alt + R
+### Cada pedido é separado por ###
+### ============================================================
+
+@baseUrl = http://localhost:3333
+
+### Teste rápido: a API está viva?
+GET {{baseUrl}}/
+
+### 1) Criar conta (cadastro)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Jhulio Cezzar",
+  "email": "jhulio@teste.com",
+  "password": "123456"
+}
+
+### 2) Login (devolve o token)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "jhulio@teste.com",
+  "password": "123456"
+}
+
+### 3) Login com senha ERRADA (deve dar 401)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "jhulio@teste.com",
+  "password": "senhaerrada"
+}
+
+### 4) Meus dados (rota PROTEGIDA, usa o token do login)
+### Antes, envie o pedido "2) Login" pelo menos uma vez: o token dele é usado aqui automaticamente
+GET {{baseUrl}}/me
+Authorization: Bearer {{login.response.body.token}}
+
+### 5) Meus dados SEM token (deve dar 401)
+GET {{baseUrl}}/me

@@ -1,0 +1,15 @@
+# Bibliotecas baixadas pelo npm (qualquer um recria com "npm install")
+node_modules/
+
+# Variáveis secretas (senhas, chaves) - NUNCA vão pro GitHub
+.env
+
+# Banco de dados local (SQLite)
+*.db
+*.db-journal
+
+# Arquivos gerados automaticamente
+dist/
+
+# Arquivos gerados pelo Claude (não fazem parte do projeto)
+Claude outputs/
