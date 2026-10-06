@@ -25,7 +25,7 @@ Pré-requisito: Node.js 20 ou superior.
 
 ```bash
 # 1. Clonar o repositório
-git clone https://github.com/SEU-USUARIO/orcafacil.git
+git clone https://github.com/jhuliocezzar17/orcafacil.git
 cd orcafacil/backend
 
 # 2. Instalar as dependências
