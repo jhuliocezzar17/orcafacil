@@ -100,4 +100,4 @@ backend/
 
 ## Autor
 
-Desenvolvido por **Jhulio Cezzar** como projeto de estudo, com o Claude (IA da Anthropic) usado como tutor durante o aprendizado.
+Desenvolvido por **Jhulio Cezzar**.
