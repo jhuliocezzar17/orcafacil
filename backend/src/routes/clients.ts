@@ -27,7 +27,7 @@ clientRoutes.get('/clients', ensureAuthenticated, async (req, res) => {
   return res.json(clients);
 });
 clientRoutes.put('/clients/:id', ensureAuthenticated, async (req, res) => {
-  const { id } = req.params;
+  const id = String(req.params.id); // garante que o id é texto
   const { name, email } = req.body ?? {};
 
   if (!name || !email) {
@@ -51,7 +51,7 @@ clientRoutes.put('/clients/:id', ensureAuthenticated, async (req, res) => {
 });
 
 clientRoutes.delete('/clients/:id', ensureAuthenticated, async (req, res) => {
-  const { id } = req.params;
+  const id = String(req.params.id); // garante que o id é texto
 
   const client = await prisma.client.findFirst({
     where: { id, userId: req.userId },

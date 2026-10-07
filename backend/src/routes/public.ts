@@ -4,7 +4,7 @@ import { prisma } from '../lib/prisma.js';
 export const publicRoutes = Router();
 
 publicRoutes.get('/public/proposals/:id', async (req, res) => {
-  const { id } = req.params;
+  const id = String(req.params.id); // garante que o id é texto
 
   const proposal = await prisma.proposal.findUnique({
     where: { id },
@@ -27,7 +27,7 @@ publicRoutes.get('/public/proposals/:id', async (req, res) => {
 });
 
 publicRoutes.patch('/public/proposals/:id/approve', async (req, res) => {
-  const { id } = req.params;
+  const id = String(req.params.id); // garante que o id é texto
 
   const proposal = await prisma.proposal.findUnique({ where: { id } });
 
