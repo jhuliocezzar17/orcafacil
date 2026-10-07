@@ -4,6 +4,13 @@ Sistema para freelancers e prestadores de serviço cadastrarem clientes, criarem
 
 O projeto tem duas partes: o **backend** (API em Node.js) e o **frontend** (React).
 
+## 🌐 No ar
+
+- **Site:** https://orcafacil-jhulio.vercel.app
+- **API:** https://orcafacil-api.vercel.app/status
+
+Hospedado na **Vercel** (frontend e backend) com banco **PostgreSQL** na **Neon** (região São Paulo).
+
 ## Funcionalidades
 
 - Cadastro e login de usuários com senha protegida por hash (bcrypt) e autenticação por token (JWT)
@@ -19,7 +26,7 @@ O projeto tem duas partes: o **backend** (API em Node.js) e o **frontend** (Reac
 
 - **Node.js** + **TypeScript** (executado com `tsx`)
 - **Express 5**
-- **Prisma** (ORM) + **SQLite**
+- **Prisma** (ORM) + **PostgreSQL** (Neon)
 - **bcryptjs** (hash de senha) e **jsonwebtoken** (JWT)
 - **cors** (libera o frontend a chamar a API)
 
@@ -33,7 +40,7 @@ O projeto tem duas partes: o **backend** (API em Node.js) e o **frontend** (Reac
 
 ## Como rodar localmente
 
-Pré-requisito: Node.js 20 ou superior.
+Pré-requisitos: Node.js 20 ou superior e um banco PostgreSQL (ex.: Neon, grátis).
 
 ```bash
 # 1. Clonar o repositório
@@ -44,11 +51,12 @@ cd orcafacil/backend
 npm install
 
 # 3. Criar o arquivo .env (use o .env.example como modelo)
-#    DATABASE_URL="file:./dev.db"
+#    DATABASE_URL="postgresql://..."           (conexão pooled)
+#    DATABASE_URL_UNPOOLED="postgresql://..."  (conexão direta, usada nas migrations)
 #    JWT_SECRET="uma-chave-secreta-longa"
 
-# 4. Criar o banco de dados
-npx prisma migrate dev
+# 4. Criar as tabelas no banco
+npx prisma migrate deploy
 
 # 5. Iniciar o servidor
 npm run dev
@@ -126,7 +134,7 @@ backend/
 - [x] Frontend com React, Vite, Tailwind e React Query
 - [ ] Editar e excluir orçamento (com proteção anti-IDOR)
 - [ ] Recusar orçamento pelo link público
-- [ ] Deploy (backend no Render ou Railway, frontend na Vercel)
+- [x] Deploy na Vercel (frontend + backend) com PostgreSQL na Neon
 
 ## Autor
 
