@@ -6,10 +6,13 @@ generator client {
 }
 
 // "datasource": qual banco usamos e onde ele está
-// SQLite = o banco inteiro fica num arquivo só (dev.db). O endereço vem do arquivo .env
+// PostgreSQL na nuvem (Neon, criado pela Vercel). Os endereços vêm do arquivo .env
+// url       = conexão "com fila" (pooled), usada pela API
+// directUrl = conexão direta, usada pelas migrations
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // ============================================================

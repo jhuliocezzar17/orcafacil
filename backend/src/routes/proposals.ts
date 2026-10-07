@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { prisma } from '../lib/prisma';
-import { ensureAuthenticated } from '../middlewares/auth';
+import { prisma } from '../lib/prisma.js';
+import { ensureAuthenticated } from '../middlewares/auth.js';
 
 export const proposalRoutes = Router();
 

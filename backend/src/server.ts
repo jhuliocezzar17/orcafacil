@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { authRoutes } from './routes/auth';
-import { clientRoutes } from './routes/clients';
-import { proposalRoutes } from './routes/proposals';
-import { publicRoutes } from './routes/public';
+import { authRoutes } from './routes/auth.js';
+import { clientRoutes } from './routes/clients.js';
+import { proposalRoutes } from './routes/proposals.js';
+import { publicRoutes } from './routes/public.js';
 
 const app = express();
 
